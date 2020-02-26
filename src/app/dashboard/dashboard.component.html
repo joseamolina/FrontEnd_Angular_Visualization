@@ -1,0 +1,17 @@
+
+<mat-toolbar color="primary" style="position: fixed;">
+  <span *ngIf="!userProjected">{{"PROYECTO" | translator: cambio_estrat}}</span>
+  <span *ngIf="userProjected" style="margin-left: 30%; font-size: 1pc">{{"PROYECTO" | translator: cambio_estrat}}</span>
+
+
+  <span *ngIf="!userProjected">{{'AUT_PB' | translator}}</span>
+  <button mat-button [matMenuTriggerFor]="menu" >{{'SEL_LENG' | translator}}</button>
+  <mat-menu #menu="matMenu">
+    <button id="{{lang.cod}}" mat-menu-item (click)="changeLanguage($event)" *ngFor="let lang of lenguas">{{lang.mensaje | translator: cambio_estrat}}</button>
+  </mat-menu>
+
+  <span style="font-size: 1pc" *ngIf="userProjected">{{"ATENTICADO" | translator: cambio_estrat}}<i>{{userProjected}}</i> <button (click)="logOut()" mat-raised-button color="accent">{{"SALIR" | translator: cambio_estrat}}<mat-icon>input</mat-icon></button></span>
+  <!--*ngIf="userProjected" -->
+
+
+</mat-toolbar>

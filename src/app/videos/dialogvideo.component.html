@@ -1,0 +1,111 @@
+
+<h1 mat-dialog-title>
+  <span>{{"VIDEO_PEDIDO" | translator: cambio_estrat}} {{video_obj.pedido}}</span>
+    <button id="button-close" mat-icon-button color="primary" (click)="close()">
+        <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" (click)="fullScreen()">
+        <mat-icon>{{icon_full_screen}}</mat-icon>
+    </button>
+</h1>
+
+<div mat-dialog-content>
+
+  <div>
+
+    <h4 id="text-primary" style="text-align: center;">
+      <button id="izquierda_paso" *ngIf="condicion !== 'video_completo'" (click)="accedeSigHito($event)" matTooltip="{{'PULSA_IZQ' | translator: cambio_estrat}}" mat-icon-button><mat-icon>keyboard_arrow_left</mat-icon></button>
+            {{condicion | translator}} {{muestraInfogeneral}} {{divWidth}}
+      <button id="derecha_paso" *ngIf="condicion !== 'video_completo'" (click)="accedeSigHito($event)" matTooltip="{{'PULSA_DER' | translator: cambio_estrat}}" mat-icon-button><mat-icon>keyboard_arrow_right</mat-icon></button>
+      <button mat-raised-button color="primary" *ngIf="condicion === 'linea_pedido'" (click)="accedeVideoCompleto()">{{"VOLVER_VIDEO" | translator}}</button>
+
+    </h4>
+
+    <p id="marca-agua" style="-webkit-text-fill-color: white; -webkit-text-stroke: 1px black" [ngStyle]="{'color': 'white', 'transform': 'translateY(146%)', 'z-index': '99999', 'visibility': muestra_texto_video}"><b>{{visibilidad_texto_video[indice_contenido].texto}}</b></p>
+
+    <video id="singleVideo" (loadeddata)="cargaDurVideo()" (timeupdate)="updateProgreso($event)" (click)="playPause()" preload="auto" style="width: 100%; height: 100%">
+        <source src="{{data.src}}" type="{{data.type}}">
+    </video>
+
+    <div class="chincheta"  *ngFor="let click of chinchetas_hitos" matTooltip="{{click.nombre_chincheta}}" (click)="accedeChincheta(click.hito_chincheta, click.indice, click.indice_serie)" [ngStyle]="{'cursor': 'pointer', 'margin-bottom': '-5px', 'display': 'inline-block', 'z-index': '9999', 'position': 'relative', 'left': 'calc(' + click.seg + '% - ' + click.resta + 'px)'}"></div>
+
+    <div id="barra-tiempo" (click)="moverPosicion($event)" (mousemove)="gtr3($event)" #barraTiempo [ngStyle]="{'background-color': color_barra, 'height': '22px'}">
+
+        <div *ngFor="let hito of milestones; let i = index" (click)="visualizaHito(i)"  matTooltip="{{hito.nombre.nombre_linea_pedido}}" [ngStyle]="{ 'background-color': color_milestones, 'height': '17px', 'cursor': 'pointer', 'pointer-events': pointer_events_barra, 'position': 'relative', 'display': 'inline-block', 'left': hito.left, 'width.%': hito.width }"></div>
+
+        <div id="cursor-tiempo" [ngStyle]="{'width': '5px', 'cursor': 'grab', 'transform': 'translateY(-100%) translateX(' + varAvance + 'px)', 'height': '22px', 'border-radius': '50%', 'background-color': 'red', 'position': 'relative' }"></div>
+
+    </div>
+
+    <div id="escalas" style="background-color: black; display: flex; height: 3px; margin-top: 5px">
+        <div *ngFor="let scala of escalas" [ngStyle]="{'height': '10px', 'width': '2px', 'background-color': 'black', 'position': 'relative', 'left': 'calc(' + scala.posicion_punto + ' - '+ scala.incremento_px_punto +')'}"></div>
+
+    </div>
+
+    <div id="escalas-2" style="margin-top: 12px; display: flex;">
+      <span *ngFor="let scala of escalas" [ngStyle]="{'left':'calc(' + scala.posicion_hora + ' - ' + scala.incremento_px + ')', 'visibility': 'visible', 'display':'inline-block', 'margin-left': '0%', 'margin-top':'4px', 'bottom': '12px', 'color': '#c0c0c0', 'position': 'relative', 'white-space': 'nowrap', 'text-align': 'center', 'font-size': '9px', 'line-weight': '9px', 'padding': '0 3px' }">{{scala.setter | amFromUtc | amDateFormat:'HH:mm:ss'}}</span>
+    </div>
+
+
+
+    <ion-range-slider #sliderElement style="margin-top: -67px; width: 100%" id="cropperter" grid="false" hide_min_max="true" drag_interval="true" from="{{fechas_milisegundos.segundo_ant}}" to="{{fechas_milisegundos.segundo_post}}" min={{fechas_milisegundos.fecha_inicio}} max={{fechas_milisegundos.fecha_final}} type="double" from="0" to="5" (onChange)="setTiemposRecorte($event)">
+    </ion-range-slider>
+
+    <mat-spinner *ngIf="estaRecortando && contestacion_recorte === null" style="align-content: center"></mat-spinner>
+
+  </div>
+  <div>
+    <table width = "100%" border = "0">
+
+      <tr valign = "top">
+        <td width = "50">
+          {{time_progress}} <br>
+          <b>{{"HORA_INICIO" | translator}}: {{video_obj.fecha | amFromUtc | amDateFormat:'HH:mm:ss'}}</b> <br>
+          <b>{{"HORA_FIN" | translator}}: {{time_total | amFromUtc | amDateFormat:'HH:mm:ss'}}</b>
+        </td>
+
+        <td width = "100">
+          <span matTooltip="{{'FRAME_BACK' | translator}}">
+        <div class="reverse-frame material-icons" id="detras" style="cursor: pointer" (click)="goFrameBack($event)"></div>
+    </span>
+
+          <i class="material-icons"  (click)="playPause()" id="play-pause" style=" cursor: pointer">{{id_play_pause}}</i>
+
+          <span matTooltip="{{'FRAME_POST' | translator}}">
+        <div class="reverse-frame transformed-reverse material-icons" style="cursor: pointer" id="delante" (click)="goFrameBack($event)"></div>
+    </span>
+
+          <i class="material-icons">{{id_volume}}</i> <mat-slider class="mat-cool-class" (change)="changeVolume($event)" [min]="0" max="100" [step]="1" value="{{valueVolumRight}}"></mat-slider>
+
+
+          <button mat-button [matMenuTriggerFor]="menu"><b>{{"VELOCIDAD" | translator}}: x{{indexSpeedVideo}}</b></button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let spVid of speedVideo" (click)="changeIconSpeed(spVid)" [value]="spVid">x{{spVid}}</button>
+          </mat-menu>
+
+          <span matTooltip="{{'FOTO' | translator}}">
+        <button mat-mini-fab (click)="snap()"><mat-icon>camera_alt</mat-icon></button>
+          </span>
+          <span matTooltip="{{'CROP' | translator}}">
+        <button mat-mini-fab (click)="cropper()"><mat-icon>crop</mat-icon></button>
+          </span>
+
+          <button *ngIf="displayScreenShotButton" matTooltip="Recortar y enviar" mat-mini-fab (click)="crop_video()"><mat-icon>crop_free</mat-icon></button>
+
+
+          <a id="contestacion-recorte" matTooltip="{{'DESC_VIDEO' | translator}}" style="background-color: lightgrey; transform: translateY(26%);" *ngIf="displayScreenShotButton && contestacion_recorte !== null" class="mat-mini-fab" href="{{contestacion_recorte}}"><mat-icon>get_app</mat-icon></a>
+
+        </td>
+      </tr>
+
+
+    </table>
+
+
+
+
+  </div>
+
+
+</div>
+

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title><span>{{'CAPTURA' | translator}}</span><span class="example-fill-remaining-space"></span><button mat-icon-button color="primary" (click)="close()">
+  <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
+</button></h1>
+<div mat-dialog-content>
+<img src="{{imagen}}" alt="{{imagen}}" style="width: 70%">
+  <p>{{'DESCARGA' | translator}}</p>
+  <a id="download" download="captura.png">
+    <a class="mat-raised-button" href="{{imagen}}">{{'DESCARGA2' | translator}}</a>
+  </a>
+</div>

@@ -1,0 +1,68 @@
+#demo-player {
+  width: 100%;
+  height: calc(100% - 90px);
+}
+
+div.mat-slider-track-background {
+  background-color: rgba(242, 248, 255, 0.74);
+}
+
+.mat-slider-wrapper {
+  background-color: white;
+}
+
+.mat-slider-thumb {
+  background-color: red !important;
+}
+
+.reverse-frame {
+  background-color: #00000000;
+  background-image: url("../../assets/reverse_frame.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 17px 17px;
+  width: 17px;
+  height: 17px;
+}
+
+.chincheta {
+  background-color: #00000000;
+  background-image: url("../../assets/pin.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+}
+
+
+.indicador-hito {
+  background-color: #00000000;
+  background-image: url("../../assets/pin.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.transformed-reverse {
+  transform: rotate(180deg);
+}
+
+.mat-select {
+  width: 18%;
+}
+
+.mat-slider-wrapper {
+  top: 0px !important;
+}
+
+.ng-draggable {
+  cursor: move;
+
+}
+
+#button-close {
+  left: 50%;
+}
+
+#contestacion-recorte {
+  transform: translateY(0%);
+}

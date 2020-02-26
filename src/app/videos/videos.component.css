@@ -1,0 +1,45 @@
+.example-card {
+  width: auto;
+}
+#demo-player {
+  width: 80%;
+  height: calc(100% - 90px);
+}
+
+mat-grid-tile {
+  background-color: aqua;
+}
+.example-card {
+  width: 400px;
+}
+#side-bar {
+  width: 25%; resize: horizontal;
+}
+
+#mat-tab-1 {
+  margin: 40%;
+}
+
+#div1 {
+  margin-left: 8%; margin-right: 8%; margin-top: 3%;
+}
+
+#div2 {
+  margin-left:28%;
+}
+
+#button1 {
+  margin: auto; margin-left: 20%;
+}
+
+#card-videos-tittle {
+  font-size: 20px; cursor: pointer;
+}
+
+#card-videos {
+  float: left; margin-left: 5%; cursor: pointer; background-color: gainsboro
+}
+
+#mat-videos-card-content {
+  text-align: left;
+}
